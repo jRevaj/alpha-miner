@@ -1,3 +1,3 @@
 [submodule "projects/components"]
 	path = projects/components
-	url = git@github.com:ILPN/ILPN-Components.git
+	url = https://github.com/jRevaj/ILPN-Components.git
