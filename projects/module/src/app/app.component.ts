@@ -58,11 +58,11 @@ export class AppComponent {
             }
         })
 
+        console.log("filtered log: ", this.log);
+
         // count num of traces
         const iterations = `number of traces: ${this.log.length}`;
         console.log(iterations);
-
-        console.log("filtered log: ", this.log);
 
         this.mine();
     }
@@ -128,9 +128,10 @@ export class AppComponent {
         let sequences: string[][] = [];
         this.log.map((trace) => {
             for (let event of trace.events) {
-                if (allEvents[allEvents.length - 1] !== event.name) {
-                    allEvents.push(event.name)
-                }
+                // if (allEvents[allEvents.length - 1] !== event.name) {
+                //     allEvents.push(event.name)
+                // }
+                allEvents.push(event.name);
             }
         });
         for (let i = 0; i < allEvents.length - 1; i++) {
