@@ -40,3 +40,9 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+
+# Testing files
+/model.pn
+/report.txt
+/repairExample.xes
+/teleclaims.xes

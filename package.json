@@ -3,6 +3,7 @@
     "version": "0.0.1",
     "scripts": {
         "ng": "ng",
+        "serve": "ng serve",
         "test": "ng test",
         "test:components": "ng test ilpn-components --watch=false --browsers=ChromeHeadless",
         "build:components": "ng build ilpn-components",
@@ -26,6 +27,7 @@
         "client-zip": "~1.5.1",
         "file-saver": "^2.0.5",
         "glpk.js": "^4.0.1",
+        "lodash": "^4.17.21",
         "object-hash": "^3.0.0",
         "rxjs": "~7.4.0",
         "tslib": "^2.3.0",
@@ -37,6 +39,7 @@
         "@angular/compiler-cli": "~13.1.0",
         "@types/file-saver": "^2.0.5",
         "@types/jasmine": "~3.10.0",
+        "@types/lodash": "^4.14.191",
         "@types/node": "^12.11.1",
         "@types/object-hash": "^2.2.1",
         "jasmine-core": "~3.10.0",
