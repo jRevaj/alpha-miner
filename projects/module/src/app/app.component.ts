@@ -80,8 +80,8 @@ export class AppComponent {
         console.log("casual relations: ", this.casualRelations);
         this.parallelActivities = this.findParallelActivities();
         console.log("parallel activities: ", this.parallelActivities)
-        // this.nonDirectCasualRelations = this.findNonDirectCasualRelations();
-        // console.log("non-direct casual relations: " + this.nonDirectCasualRelations);
+        this.nonDirectCasualRelations = this.findNonDirectCasualRelations();
+        console.log("non-direct casual relations: ", this.nonDirectCasualRelations);
         // TODO: xl set
         // TODO: yl set
         // TODO: to set - check for deviations
@@ -145,7 +145,7 @@ export class AppComponent {
     private findCasualRelations(): string[][] {
         let sequences = this.taskSequences
         let casual: string[][] = []
-        sequences.map(sequence => {
+        sequences.map((sequence) => {
             let hasReverseSequence: boolean = false;
             for (let testSeq of sequences) {
                 let reverseTestSeq = [testSeq[1], testSeq[0]]
@@ -163,7 +163,7 @@ export class AppComponent {
     private findParallelActivities(): string[][] {
         let sequences = this.taskSequences
         let parallel: string[][] = []
-        sequences.map(sequence => {
+        sequences.map((sequence) => {
             for (let testSeq of sequences) {
                 let reverseTestSeq = [testSeq[1], testSeq[0]]
                 if (_.isEqual(reverseTestSeq, sequence)) {
@@ -181,18 +181,21 @@ export class AppComponent {
         let log = this.log
         let sequences = this.taskSequences
         let nonDirect: string[][] = []
-        log.map(trace => {
-            trace.events.map(event => {
+        for (let trace of this.log) {
+            trace.events.map((event) => {
                 for (let second_event of trace.events) {
-                    if (!(_.find(nonDirect, [event.name, second_event.name])) && !(_.find(nonDirect, [second_event.name, event.name]))) {
-                        if (!(_.find(sequences, [event.name, second_event.name])) && !(_.find(sequences, [second_event.name, event.name]))) {
-                            console.log("adding" + [event.name, second_event.name])
+                    let foundInNonDirect = _.find(nonDirect, _.matches([event.name, second_event.name]));
+                    let foundInNonDirectReverse = _.find(nonDirect, _.matches([second_event.name, event.name]));
+                    if (!foundInNonDirect && !foundInNonDirectReverse) {
+                        let foundInSequences = _.find(sequences, _.matches([event.name, second_event.name]));
+                        let foundInSequencesReverse = _.find(sequences, _.matches([second_event.name, event.name]));
+                        if (!foundInSequences && !foundInSequencesReverse) {
                             nonDirect.push([event.name, second_event.name]);
                         }
                     }
                 }
             })
-        })
+        }
         return nonDirect
     }
 }
