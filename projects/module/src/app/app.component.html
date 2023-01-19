@@ -7,4 +7,13 @@
         <ilpn-file-download descriptionText="Click to download model" [fileDisplay]="fdPn" [disabled]="processing || result === undefined"></ilpn-file-download>
         <ilpn-file-download descriptionText="Click to download synthesised nets" [squareContent]="'X'" [disabled]="processing || report === undefined"></ilpn-file-download>
     </div>
+
+    <hr>
+    <h2>download examples</h2>
+    <div fxLayout="row wrap" fxLayoutAlign="start start" fxLayout.sm="column" fxLayoutAlign.sm="space-between center">
+        <ilpn-descriptive-link [fileDisplay]="fdLog" title="Repair example" description="from the ProM framework tutorial [1]" link="assets/repairExample.xes" [download]="true" [descriptionLines]="4"></ilpn-descriptive-link>
+        <ilpn-descriptive-link [fileDisplay]="fdLog" title="Teleclaims example" description="introduced in Chapter 8 of the Process Mining: Data Science in Action book [1]" link="assets/teleclaims.xes" [download]="true" [descriptionLines]="4"></ilpn-descriptive-link>
+    </div>
+
+    <br>
 </ilpn-page-layout>
