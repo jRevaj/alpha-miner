@@ -26,15 +26,16 @@ export class AppComponent {
     public processing = false;
     public pn: PetriNet | undefined;
 
-    private allActivities: Array<String> | undefined;
-    private initActivities: Array<String> | undefined;
-    private endActivities: Array<String> | undefined;
+    private allActivities: Array<string> | undefined;
+    private initActivities: Array<string> | undefined;
+    private endActivities: Array<string> = [];
     private taskSequences: string[][] = [];
     private casualRelations: string[][] = [];
     private parallelActivities: string[][] = [];
     private nonDirectCasualRelations: string[][] = [];
-    private xl: Array<Trace> | undefined;
-    private yl: Array<Trace> | undefined;
+    private xl: Array<any> = [];
+    private yl: Array<any> = [];
+    private to: Array<String> = [];
 
     constructor(
         private parser: XesLogParserService,
@@ -91,8 +92,8 @@ export class AppComponent {
         // TODO: generate places
     }
 
-    private findAllActivities(): Array<String> {
-        let all = new Array<String>();
+    private findAllActivities(): Array<string> {
+        let all = new Array<string>();
         this.log.map((trace) => {
             for (const event of trace.events) {
                 if (!all.includes(event.name)) {
@@ -103,8 +104,8 @@ export class AppComponent {
         return all;
     }
 
-    private findInitActivities(): Array<String> {
-        let init = new Array<String>();
+    private findInitActivities(): Array<string> {
+        let init = new Array<string>();
         this.log.map((trace) => {
             if (!init.includes(trace.events[0].name)) {
                 init.push(trace.events[0].name)
@@ -113,8 +114,8 @@ export class AppComponent {
         return init;
     }
 
-    private findEndActivities(): Array<String> {
-        let end = new Array<String>();
+    private findEndActivities(): Array<string> {
+        let end = new Array<string>();
         this.log.map((trace) => {
             if (!end.includes(trace.events[trace.events.length - 1].name)) {
                 end.push(trace.events[trace.events.length - 1].name)
