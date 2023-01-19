@@ -83,9 +83,12 @@ export class AppComponent {
         console.log("parallel activities: ", this.parallelActivities)
         this.nonDirectCasualRelations = this.findNonDirectCasualRelations();
         console.log("non-direct casual relations: ", this.nonDirectCasualRelations);
-        // TODO: xl set
-        // TODO: yl set
-        // TODO: to set - check for deviations
+        this.xl = this.generateXlSet();
+        console.log("xl set: ", this.xl);
+        this.yl = this.generateYlSet();
+        console.log("yl set: ", this.yl);
+        this.to = this.getClearToSet();
+        console.log("to set: ", this.to);
         // TODO: generate start place
         // TODO: generate end place
         // TODO: generate transitions
@@ -178,8 +181,6 @@ export class AppComponent {
     }
 
     private findNonDirectCasualRelations(): string[][] {
-        // TODO: debug
-        let log = this.log
         let sequences = this.taskSequences
         let nonDirect: string[][] = []
         for (let trace of this.log) {
@@ -198,5 +199,100 @@ export class AppComponent {
             })
         }
         return nonDirect
+    }
+
+    private generateXlSet(): Array<any> {
+        let xl: Array<any> = _.cloneDeep(this.casualRelations);
+        for (let parallel of this.parallelActivities) {
+            for (let casual of this.casualRelations) {
+                let containsFF = _.find(this.casualRelations, _.matches([casual[0], parallel[0]]));
+                let containsFS = _.find(this.casualRelations, _.matches([casual[0], parallel[1]]));
+                let reverseContainsFS = _.find(this.casualRelations, _.matches([parallel[0], casual[1]]));
+                let reverseContainsSS = _.find(this.casualRelations, _.matches([parallel[1], casual[1]]));
+                if (containsFF && containsFS) {
+                    xl.push([casual[0], parallel]);
+                }
+                if (reverseContainsFS && reverseContainsSS) {
+                    xl.push([parallel, casual[1]]);
+                }
+            }
+        }
+        xl = _.uniqWith(xl, _.isEqual);
+        return xl;
+    }
+
+    private generateYlSet(): Array<any> {
+        let toRemove: Array<any> = [];
+        for (let sequence of this.xl) {
+            let a: any;
+            let b: any;
+            if (_.isArray(sequence[0])) {
+                a = sequence[0];
+            } else {
+                a = [sequence[0]];
+            }
+
+            if (_.isArray(sequence[1])) {
+                b = sequence[1];
+            } else {
+                b = [sequence[1]];
+            }
+
+            for (let secondSequence of this.xl) {
+                let secondSequenceA: any;
+                let secondSequenceB: any;
+
+                if (_.isArray(secondSequence[0])) {
+                    secondSequenceA = secondSequence[0];
+                } else {
+                    secondSequenceA = [secondSequence[0]];
+                }
+
+                if (_.isArray(secondSequence[1])) {
+                    secondSequenceB = secondSequence[1];
+                } else {
+                    secondSequenceB = [secondSequence[1]];
+                }
+
+                let intersection1 = _.intersection(a, secondSequenceA);
+                let intersection2 = _.intersection(b, secondSequenceB);
+                if ((intersection1.length > 0) && (intersection2.length > 0)) {
+                    if (!_.isEqual(sequence, secondSequence)) {
+                        toRemove.push(sequence);
+                    }
+                }
+            }
+        }
+        toRemove = _.uniqWith(toRemove, _.isEqual);
+        let result = _.cloneDeep(this.xl);
+        toRemove.map((sequence) => {
+            for (let i = 0; i < result.length; i++) {
+                if (_.isEqual(result[i], sequence)) {
+                    result.splice(i, 1);
+                }
+            }
+        })
+        return result;
+    }
+
+    private getClearToSet(): Array<string> {
+        let toRemove: Array<string> = [];
+        for (let activity of this.endActivities) {
+            for (let x of this.xl) {
+                if (activity == x[0]) {
+                    toRemove.push(activity);
+                }
+            }
+        }
+        toRemove = _.uniqWith(toRemove, _.isEqual);
+        let result = _.cloneDeep(this.endActivities);
+        toRemove.map((activity) => {
+            for (let i = 0; i < result.length; i++) {
+                if (_.isEqual(result[i], activity)) {
+                    result.splice(i, 1);
+                }
+            }
+        })
+        return result;
     }
 }
