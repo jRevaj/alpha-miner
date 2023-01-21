@@ -6,9 +6,6 @@ import {
 import {DropFile} from 'dist/ilpn-components/public-api';
 import {Trace} from '../../../components/src/lib/models/log/model/trace';
 import {XesLogParserService} from '../../../components/src/lib/models/log/parser/xes-log-parser.service';
-import {
-    PetriNetSerialisationService
-} from '../../../components/src/lib/models/pn/parser/petri-net-serialisation.service';
 import {PetriNet} from '../../../components/src/lib/models/pn/model/petri-net';
 import * as _ from "lodash";
 
@@ -38,8 +35,7 @@ export class AppComponent {
     private to: Array<String> = [];
 
     constructor(
-        private parser: XesLogParserService,
-        private serializer: PetriNetSerialisationService
+        private parser: XesLogParserService
     ) {
     }
 
@@ -128,19 +124,11 @@ export class AppComponent {
     }
 
     private findTaskSequences(): string[][] {
-        let allEvents: string[] = [];
         let sequences: string[][] = [];
-        this.log.map((trace) => {
-            for (let event of trace.events) {
-                // if (allEvents[allEvents.length - 1] !== event.name) {
-                //     allEvents.push(event.name)
-                // }
-                allEvents.push(event.name);
+        for (let trace of this.log) {
+            for (let i = 0; i < trace.events.length - 1; i++) {
+                sequences.push([trace.events[i].name, trace.events[i+1].name]);
             }
-        });
-        for (let i = 0; i < allEvents.length - 1; i++) {
-            let currentSequence = [allEvents[i], allEvents[i + 1]]
-            sequences.push(currentSequence)
         }
         sequences = _.uniqWith(sequences, _.isEqual);
         return sequences;
