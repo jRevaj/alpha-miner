@@ -7,10 +7,12 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {APP_BASE_HREF, PlatformLocation} from '@angular/common';
+import { AlphaSolverComponent } from './alpha-solver/alpha-solver.component';
 
 @NgModule({
     declarations: [
-        AppComponent
+        AppComponent,
+        AlphaSolverComponent
     ],
     imports: [
         BrowserModule,
