@@ -4,8 +4,8 @@
 
     <div fxLayout="row wrap" fxLayoutAlign="space-evenly start">
         <ilpn-file-upload descriptionText="Drop a XES log file here" [fileDisplay]="fdLog" [showText]="log === undefined" (fileContent)="processLog($event)"></ilpn-file-upload>
-        <ilpn-file-download descriptionText="Click to download model" [fileDisplay]="fdPn" [disabled]="processing || result === undefined"></ilpn-file-download>
-        <ilpn-file-download descriptionText="Click to download synthesised nets" [squareContent]="'X'" [disabled]="processing || report === undefined"></ilpn-file-download>
+        <ilpn-file-download descriptionText="Click to download model" [fileDisplay]="fdPN" [disabled]="processing || pnResult === undefined"></ilpn-file-download>
+        <ilpn-file-download descriptionText="Click to download synthesised nets" [squareContent]="'X'" [disabled]="processing || reportResult === undefined"></ilpn-file-download>
     </div>
 
     <hr>
