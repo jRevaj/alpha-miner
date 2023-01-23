@@ -41,6 +41,8 @@ export class Footprint {
                 // other relation types not changed
             }
         }
+
+        // TODO: process loops of length 2
     }
 
     public getRelation(firstEvent: string, secondEvent: string): Relation | undefined {
