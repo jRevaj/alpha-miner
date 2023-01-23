@@ -1,5 +1,6 @@
 import {Relation} from "./relation";
 import {Trace} from "../../../../components/src/lib/models/log/model/trace";
+import * as _ from "lodash";
 
 export class Footprint {
     public footprint: Relation[][] = [];
@@ -42,7 +43,23 @@ export class Footprint {
             }
         }
 
-        // TODO: process loops of length 2
+        // check for loops of length two
+        if (loopsL2) {
+            for (const trace of eventLog) {
+                let eventsInTrace: Array<string> = trace.eventNames;
+                for (let i = 0; i < eventsInTrace.length - 2; i++) {
+                    if (_.isEqual(eventsInTrace[i], eventsInTrace[i+2])) {
+                        let currentEvent: number | undefined = this.eventsToMatrix.get(eventsInTrace[i]);
+                        let nextEvent: number | undefined = this.eventsToMatrix.get(eventsInTrace[i+1]);
+
+                        if (currentEvent !== undefined && nextEvent !== undefined) {
+                            this.footprint[currentEvent][nextEvent] = Relation.PRECEDES;
+                            this.footprint[nextEvent][currentEvent] = Relation.PRECEDES;
+                        }
+                    }
+                }
+            }
+        }
     }
 
     public getRelation(firstEvent: string, secondEvent: string): Relation | undefined {

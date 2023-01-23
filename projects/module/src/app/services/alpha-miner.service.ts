@@ -37,7 +37,7 @@ export class AlphaMinerService {
         console.log("endingEvents: ", endingEvents);
 
         // generate matrix of relations from log
-        const footprint: Footprint = new Footprint(eventList, log, false);
+        const footprint: Footprint = new Footprint(eventList, log, true);
         console.log("footprint matrix: ", footprint.footprint);
 
         // TODO: generate XL - places
@@ -68,7 +68,7 @@ export class AlphaMinerService {
     }
 
     private processLoopsL1(trace: Trace, loopsL1: Set<LoopLengthOne>) {
-        // TODO: test
+        // TODO: test method if working correctly
         let start;
         let eventsInTrace: Array<string> = trace.eventNames;
         while ((start = this.checkL1(eventsInTrace)) != -1) {
