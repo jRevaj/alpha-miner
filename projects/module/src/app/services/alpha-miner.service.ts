@@ -24,15 +24,18 @@ export class AlphaMinerService {
         let startingEvents: Set<string> = new Set();
         let endingEvents: Set<string> = new Set();
 
-        // steps 1,2,3
+        // find list of all events & starting events & ending events
         this.extractEvents(log, eventList, startingEvents, endingEvents);
         console.log("eventList: ", eventList);
         console.log("startingEvents: ", startingEvents);
         console.log("endingEvents: ", endingEvents);
 
-        // generate matrix of relations
+        // generate matrix of relations from log
         const footprint: Footprint = new Footprint(eventList, log, false);
         console.log("footprint matrix: ", footprint.footprint);
+
+        // generate places for WF Net
+
     }
 
     private extractEvents(eventLog: Array<Trace>, allEvents: Set<string>, startingEvents: Set<string>, endingEvents: Set<string>): void {
