@@ -72,5 +72,4 @@ export class Footprint {
 
         return undefined;
     }
-
 }
