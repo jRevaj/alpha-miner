@@ -72,4 +72,49 @@ export class Footprint {
 
         return undefined;
     }
+
+    public isFollowed(firstEvent: string, secondEvent: string): boolean {
+        return this.getRelation(firstEvent, secondEvent) == Relation.PRECEDES;
+    }
+
+    public areConnected(firstEvent: string, secondEvent: string): boolean {
+        return this.getRelation(firstEvent, secondEvent) != Relation.NOT_CONNECTED;
+    }
+
+    public areEventsConnected(inputEvents: Set<string>, outputEvents: Set<string>): boolean {
+        // for every input1, input2 => input1#input2
+        let inputTest: boolean = false;
+        for (const first of inputEvents) {
+            for (const second of inputEvents) {
+                inputTest = this.areConnected(first, second);
+                if (inputTest) {
+                    return false;
+                }
+            }
+        }
+
+        // for every output1, output2 => output1#output2
+        let outputTest: boolean = false;
+        for (const first of outputEvents) {
+            for (const second of outputEvents) {
+                outputTest = this.areConnected(first, second);
+                if (outputTest) {
+                    return false;
+                }
+            }
+        }
+
+        // for every input in inputEvents && output in outputEvents => input>output
+        let ioTest: boolean = false;
+        for (const input of inputEvents) {
+            for (const output of outputEvents) {
+                ioTest = this.isFollowed(input, output);
+                if (!ioTest) {
+                    break;
+                }
+            }
+        }
+
+        return ioTest;
+    }
 }

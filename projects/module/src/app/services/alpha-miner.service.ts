@@ -4,6 +4,8 @@ import {cleanLog} from "../../../../components/src/lib/algorithms/log/clean-log"
 import {Trace} from "../../../../components/src/lib/models/log/model/trace";
 import {Footprint} from "../models/footprint";
 import {LoopLengthOne} from "../models/loop-length-one";
+import {Place} from "../../../../components/src/lib/models/pn/model/place";
+import {setOfAllSubsets} from "../models/utility";
 
 @Injectable({
     providedIn: 'root'
@@ -40,9 +42,8 @@ export class AlphaMinerService {
         const footprint: Footprint = new Footprint(eventList, log, true);
         console.log("footprint matrix: ", footprint.footprint);
 
-        // TODO: generate XL - places
+        let xl: Set<Place> = this.generatePlacesFromFootprint(footprint, eventList);
         // TODO: generate YL
-
     }
 
     private extractEvents(eventLog: Array<Trace>, allEvents: Set<string>, startingEvents: Set<string>, endingEvents: Set<string>): void {
@@ -87,5 +88,38 @@ export class AlphaMinerService {
 
             loopsL1.add(loop);
         }
+    }
+
+    private generatePlacesFromFootprint(footprint: Footprint, eventList: Set<string>): Set<Place> {
+        let xl: Set<any> = new Set();
+        let pSet: Set<any> = setOfAllSubsets(eventList);
+        console.log("size of pSet: ", pSet.size);
+
+        // filter out subsets with empty value
+        pSet.forEach((e: any) => {
+            if (e.size == 0) {
+                pSet.delete(e);
+            }
+        });
+
+        // convert to arr
+        let pSetArr: Array<any> = _.toArray(pSet);
+
+        for (let i = 0; i < pSetArr.length; i++) {
+            let first: Set<string> = pSetArr[i];
+            for (let j = 0; j < pSetArr.length; j++) {
+                if (i == j) {
+                    continue;
+                }
+
+                let second: Set<string> = pSetArr[j];
+                if (footprint.areEventsConnected(first, second)) {
+                    let toAdd: Set<string>[] = [first, second];
+                    xl.add(toAdd)
+                }
+            }
+        }
+        console.log("size of xl: ", xl.size);
+        return xl;
     }
 }
