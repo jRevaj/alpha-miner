@@ -5,7 +5,7 @@ import {Trace} from "../../../../components/src/lib/models/log/model/trace";
 import {Footprint} from "../models/footprint";
 import {LoopLengthOne} from "../models/loop-length-one";
 import {Place} from "../../../../components/src/lib/models/pn/model/place";
-import {setOfAllSubsets} from "../models/utility";
+import {containsAll, setOfAllSubsets} from "../models/utility";
 
 @Injectable({
     providedIn: 'root'
@@ -42,8 +42,11 @@ export class AlphaMinerService {
         const footprint: Footprint = new Footprint(eventList, log, true);
         console.log("footprint matrix: ", footprint.footprint);
 
+        // generate xl set
         let xl: Set<Place> = this.generatePlacesFromFootprint(footprint, eventList);
-        // TODO: generate YL
+
+        // generate yl set by reducing xl set
+        let yl: Array<string> = this.reduceXl(xl);
     }
 
     private extractEvents(eventLog: Array<Trace>, allEvents: Set<string>, startingEvents: Set<string>, endingEvents: Set<string>): void {
@@ -121,5 +124,39 @@ export class AlphaMinerService {
         }
         console.log("size of xl: ", xl.size);
         return xl;
+    }
+
+    private reduceXl(xl: Set<Place>): Array<string> {
+        let toRemove: Set<any> = new Set();
+        let potential: Array<any> = _.toArray(xl);
+
+        for (let i = 0; i < potential.length - 1; i++) {
+            let iPotential: Set<string>[] = potential[i];
+            let iInEvents: any = _.toArray(iPotential[0]);
+            let iOutEvents: any = _.toArray(iPotential[1]);
+
+            for (let j = i + 1; j < potential.length; j++) {
+                let jPotential: Set<string>[] = potential[j];
+                let jInEvents: any = _.toArray(jPotential[0]);
+                let jOutEvents: any = _.toArray(jPotential[1]);
+                if (containsAll(iInEvents, jInEvents)) {
+                    if (containsAll(iOutEvents, jOutEvents)) {
+                        toRemove.add(jPotential);
+                        continue;
+                    }
+                }
+
+                if (containsAll(jInEvents, iInEvents)) {
+                    if (containsAll(jOutEvents, iOutEvents)) {
+                        toRemove.add(iPotential);
+                    }
+                }
+            }
+        }
+
+        let toRemoveArr: Array<any> = _.toArray(toRemove);
+        let yl: Array<any> = _.difference(potential, toRemoveArr);
+        console.log("yl set: ", yl);
+        return yl;
     }
 }
