@@ -19,3 +19,7 @@ export function setOfAllSubsets(original: Set<string>): Set<any> {
 
     return sets;
 }
+
+export function containsAll(arr: Array<string>, target: Array<string>): boolean {
+    return target.every(e => arr.includes(e));
+}
