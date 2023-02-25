@@ -164,11 +164,11 @@ export class AlphaMinerSolver {
     private postProcessLoopsL1(loopsL1: Set<LoopLengthOne>, yl: Array<string>, eventList: Set<string>): void {
         // TODO: finish loops processing
 
-
     }
 
     private constructPetriNet(eventList: Set<string>, yl: Array<string>): PetriNet {
         // TODO: debug construction (seems to be reversed)
+        // TODO: debug duplicate transitions on complex examples
         const net: PetriNet = new PetriNet();
 
         eventList.forEach(event => {
@@ -176,19 +176,20 @@ export class AlphaMinerSolver {
             net.addTransition(t);
         })
 
+        yl = _.reverse(yl);
         yl.forEach((mapping, index) => {
             const p: Place = new Place(0, 0, 0, "p" + (index + 1));
             net.addPlace(p);
             for (const inEvent of mapping[0]) {
                 const t: Transition | undefined = net.getTransition(inEvent);
                 if (t) {
-                    net.addArc(p, t, 1);
+                    net.addArc(t, p, 1);
                 }
             }
             for (const outEvent of mapping[1]) {
                 const t: Transition | undefined = net.getTransition(outEvent);
                 if (t) {
-                    net.addArc(t, p, 1);
+                    net.addArc(p, t, 1);
                 }
             }
         })
