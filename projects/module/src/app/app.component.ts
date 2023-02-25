@@ -1,8 +1,5 @@
 import {Component, OnDestroy} from '@angular/core';
-import {
-    DropFile, FD_LOG,
-    FD_PETRI_NET,
-} from 'ilpn-components';
+import {FD_LOG, FD_PETRI_NET, DropFile} from 'ilpn-components';
 import {AlphaMinerService} from "./services/alpha-miner.service";
 import {Subscription} from "rxjs";
 import {Trace} from "../../../components/src/lib/models/log/model/trace";
@@ -10,6 +7,7 @@ import {XesLogParserService} from "../../../components/src/lib/models/log/parser
 import {
     PetriNetSerialisationService
 } from "../../../components/src/lib/models/pn/parser/petri-net-serialisation.service";
+import {AlgorithmResult} from "../../../components/src/lib/utility/algorithm-result";
 
 @Component({
     selector: 'app-root',
@@ -38,18 +36,27 @@ export class AppComponent implements OnDestroy {
 
     public processLog(files: Array<DropFile>) {
         this.processing = true;
-        this.pnResult = undefined;
 
         this.log = this._logParser.parse(files[0].content);
         console.debug(this.log);
 
         const runs = `number of traces: ${this.log.length}`;
 
+        // solve petri net
         const start = performance.now();
-
-        this._miner.mine(this.log);
-
+        const minerResult = this._miner.mine(this.log);
         const stop = performance.now();
-    }
 
+        // compose report
+        const report = new AlgorithmResult('Alpha Miner', start, stop);
+        report.addOutputLine(runs);
+        minerResult.report.forEach(l => report.addOutputLine(l));
+
+        // generate result files
+        this.pnResult = new DropFile('model.pn', this._netSerializer.serialise(minerResult.net));
+        // TODO: resolve report file type mismatch
+        // this.reportResult = report.toDropFile('report.txt');
+
+        this.processing = false;
+    }
 }
