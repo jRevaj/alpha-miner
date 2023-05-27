@@ -158,13 +158,13 @@ export class AlphaMinerSolver {
         return _.difference(potential, toRemoveArr);
     }
 
-    private postProcessLoopsL1(loopsL1: Set<LoopLengthOne>, yl: Array<string>, eventList: Set<string>): void {
-        // TODO: finish loops processing
-
-    }
-
-    private constructPetriNet(eventList: Set<string>, yl: Array<string>): PetriNet {
-        // TODO: debug construction (seems to be reversed)
+    /**
+     * Constructs Petri net from event list and yl set
+     * @param eventList - list of all events
+     * @param yl - yl set
+     * @returns Petri net
+     */
+    private constructPetriNet(eventList: Set<string>, yl: Array<Set<string>[]>): PetriNet {
         // TODO: debug duplicate transitions on complex examples
         const net: PetriNet = new PetriNet();
 
@@ -173,7 +173,9 @@ export class AlphaMinerSolver {
             net.addTransition(t);
         })
 
-        yl = _.reverse(yl);
+        yl = sortYl(yl);
+
+        // add places and arcs
         yl.forEach((mapping, index) => {
             const p: Place = new Place(0, 0, 0, "p" + (index + 1));
             net.addPlace(p);
@@ -191,20 +193,21 @@ export class AlphaMinerSolver {
             }
         })
 
+        // add start and end places
         for (const t of net.getTransitions()) {
-            if (t.ingoingArcs.length === 0) {
+            if (t.ingoingArcs.length === 0 && this.startingEvents.has(t.getString())) {
                 const p = new Place(1, 0, 0, "in");
                 net.addPlace(p);
                 net.addArc(p, t);
             }
-            if (t.outgoingArcs.length === 0) {
+            if (t.outgoingArcs.length === 0 && this.endingEvents.has(t.getString())) {
                 const p = new Place(0, 0, 0, "out");
                 net.addPlace(p);
                 net.addArc(t, p);
             }
         }
 
-        console.log("solution pn: ", net);
+        console.debug("solution pn: ", net);
         return net;
     }
 }
