@@ -7,10 +7,6 @@ export class Footprint {
     public eventsToMatrix: Map<string, number> = new Map<string, number>();
 
     constructor(private allEvents: Set<string>, private eventLog: Array<Trace>, private loopsL2: boolean) {
-        this.Footprint(allEvents, eventLog, loopsL2);
-    }
-
-    public Footprint(allEvents: Set<string>, eventLog: Array<Trace>, loopsL2: boolean) {
         let idx = 0;
 
         // assign index to each event
