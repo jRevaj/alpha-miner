@@ -1,6 +1,7 @@
 /**
- * Returns the set of all subsets of the given set.
+ * Function for creating set of all subsets of given set.
  * @param original - the set to get all subsets of
+ * @returns the set of all subsets of the given set
  */
 export function setOfAllSubsets(original: Set<string>): Set<any> {
     let sets: Set<any> = new Set();
@@ -25,17 +26,19 @@ export function setOfAllSubsets(original: Set<string>): Set<any> {
 }
 
 /**
- * Returns true if the given array contains all of the elements in the given target array.
+ * Function for checking if the given array contains all of the elements in the given target array.
  * @param arr - the array to check
  * @param target - the target array
+ * @returns true if the given array contains all of the elements in the given target array
  */
 export function containsAll(arr: Array<string>, target: Array<string>): boolean {
     return target.every(e => arr.includes(e));
 }
 
 /**
- * Sorts the given array of sets of sets of strings by the string representation of the sets of sets of strings.
+ * Function for sorting the given array of sets by the string representation.
  * @param yl - the array of sets of sets of strings to sort
+ * @returns the sorted array of sets by the string representation
  */
 export function sortYl(yl: Array<Set<string>[]>): Array<Set<string>[]> {
     return yl.sort((a, b) => {
