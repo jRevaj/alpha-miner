@@ -50,17 +50,21 @@ export class Footprint {
 
         // check for loops of length two
         if (loopsL2) {
-            for (const trace of eventLog) {
-                let eventsInTrace: Array<string> = trace.eventNames;
-                for (let i = 0; i < eventsInTrace.length - 2; i++) {
-                    if (_.isEqual(eventsInTrace[i], eventsInTrace[i + 2])) {
-                        let currentEvent: number | undefined = this.eventsToMatrix.get(eventsInTrace[i]);
-                        let nextEvent: number | undefined = this.eventsToMatrix.get(eventsInTrace[i + 1]);
+            this.checkForLoopsOfLengthTwo(eventLog);
+        }
+    }
 
-                        if (currentEvent !== undefined && nextEvent !== undefined) {
-                            this.footprint[currentEvent][nextEvent] = Relation.PRECEDES;
-                            this.footprint[nextEvent][currentEvent] = Relation.PRECEDES;
-                        }
+    private checkForLoopsOfLengthTwo(eventLog: Array<Trace>): void {
+        for (const trace of eventLog) {
+            let eventsInTrace: Array<string> = trace.eventNames;
+            for (let i = 0; i < eventsInTrace.length - 2; i++) {
+                if (_.isEqual(eventsInTrace[i], eventsInTrace[i + 2])) {
+                    let currentEvent: number | undefined = this.eventsToMatrix.get(eventsInTrace[i]);
+                    let nextEvent: number | undefined = this.eventsToMatrix.get(eventsInTrace[i + 1]);
+
+                    if (currentEvent !== undefined && nextEvent !== undefined) {
+                        this.footprint[currentEvent][nextEvent] = Relation.PRECEDES;
+                        this.footprint[nextEvent][currentEvent] = Relation.PRECEDES;
                     }
                 }
             }
