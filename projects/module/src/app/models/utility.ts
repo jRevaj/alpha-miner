@@ -47,3 +47,22 @@ export function sortYl(yl: Array<Set<string>[]>): Array<Set<string>[]> {
         return strA.localeCompare(strB);
     });
 }
+
+/**
+ * Function for converting the given type to a string.
+ * @param input - the input to convert
+ * @returns the string representation of the given input
+ */
+export function customToString(input: Set<Set<string>[]> | Array<Set<string>[]>): string {
+    let result: string = "";
+    for (const e of input) {
+        let subResult = "";
+        for (const f of Array.from(e)) {
+            subResult += "[" + Array.from(f).join(", ") + "], ";
+        }
+        subResult = subResult.slice(0, -2);
+        result += subResult + "\n";
+    }
+    result = result.slice(0, -1); // remove the last newline
+    return result;
+}
