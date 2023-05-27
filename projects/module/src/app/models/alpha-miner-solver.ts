@@ -38,8 +38,8 @@ export class AlphaMinerSolver {
         console.debug("endingEvents: ", this.endingEvents);
 
         // generate matrix of relations from log
-        const footprint: Footprint = new Footprint(eventList, log, true);
-        console.log("footprint matrix: ", footprint.footprint);
+        const footprint: Footprint = new Footprint(eventList, log, false);
+        console.debug("footprint matrix: ", footprint.footprint);
 
         // generate xl set
         let xl: Set<Place> = this.generatePlacesFromFootprint(footprint, eventList);
