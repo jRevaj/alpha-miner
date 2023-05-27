@@ -34,6 +34,10 @@ export class AppComponent implements OnDestroy {
         this._sub?.unsubscribe()
     }
 
+    /**
+     * Main module method that processes log file, discovers Petri net and generates result files
+     * @param files - array of files dropped on the module
+     */
     public processLog(files: Array<DropFile>): void {
         this.processing = true;
 
