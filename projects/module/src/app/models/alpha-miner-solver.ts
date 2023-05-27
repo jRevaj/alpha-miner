@@ -2,11 +2,11 @@ import {Injectable} from '@angular/core';
 import * as _ from 'lodash';
 import {Trace} from "../../../../components/src/lib/models/log/model/trace";
 import {Footprint} from "./footprint";
-import {LoopLengthOne} from "./loop-length-one";
 import {Place} from "../../../../components/src/lib/models/pn/model/place";
-import {containsAll, setOfAllSubsets} from "./utility";
+import {containsAll, setOfAllSubsets, sortYl} from "./utility";
 import {PetriNet} from "../../../../components/src/lib/models/pn/model/petri-net";
 import {Transition} from "../../../../components/src/lib/models/pn/model/transition";
+import {AlphaPlus} from "./alpha-plus";
 
 @Injectable({
     providedIn: 'root'
@@ -15,11 +15,24 @@ import {Transition} from "../../../../components/src/lib/models/pn/model/transit
  * Class implementing Alpha Miner algorithm
  */
 export class AlphaMinerSolver {
-    public loopsL2: boolean = true;
+    private readonly processLoopsL1: boolean;
+    private readonly processLoopsL2: boolean;
+    private readonly alphaPlus: AlphaPlus | undefined;
     private startingEvents: Set<string> = new Set<string>();
     private endingEvents: Set<string> = new Set<string>();
 
-    constructor() {
+    /**
+     * Creates new instance of AlphaMinerSolver
+     * @param loopsL1 - flag indicating whether loops of length 1 should be discovered
+     * @param loopsL2 - flag indicating whether loops of length 2 should be discovered
+     */
+    constructor(loopsL1: boolean, loopsL2: boolean) {
+        this.processLoopsL1 = loopsL1;
+        this.processLoopsL2 = loopsL2;
+
+        if (this.processLoopsL1) {
+            this.alphaPlus = new AlphaPlus();
+        }
     }
 
     /**
@@ -28,16 +41,14 @@ export class AlphaMinerSolver {
      * @returns discovered Petri net
      */
     public discoverWFNet(log: Array<Trace>): PetriNet {
-        // let loopsL1: Set<LoopLengthOne> = new Set();
-        // for (const trace of log) {
-        //     this.processLoopsL1(trace, loopsL1);
-        // }
-        // console.log("loops of length one: ", loopsL1);
+        // if loops of length 1 should be discovered, pre-process log
+        if (this.processLoopsL1 && this.alphaPlus !== undefined) {
+            this.alphaPlus.preProcessLoopsL1(log);
+        }
 
         let eventList: Set<string> = new Set();
         this.startingEvents = new Set<string>();
         this.endingEvents = new Set<string>();
-
 
         // find list of all events & starting events & ending events
         this.extractEvents(log, eventList, this.startingEvents, this.endingEvents);
@@ -46,7 +57,7 @@ export class AlphaMinerSolver {
         console.debug("endingEvents: ", this.endingEvents);
 
         // generate matrix of relations from log
-        const footprint: Footprint = new Footprint(eventList, log, false);
+        const footprint: Footprint = new Footprint(eventList, log, this.processLoopsL2);
         console.debug("footprint matrix: ", footprint.footprint);
 
         // generate xl set
@@ -57,8 +68,10 @@ export class AlphaMinerSolver {
         let yl: Array<Set<string>[]> = this.reduceXl(xl);
         console.debug("yl:", yl);
 
-        // TODO: take in account discovered loops of length 1
-        // this.postProcessLoopsL1(loopsL1, yl, eventList);
+        // if loops of length 1 should be discovered, post-process yl set
+        if (this.processLoopsL1 && this.alphaPlus !== undefined) {
+            this.alphaPlus.postProcessLoopsL1(yl, eventList);
+        }
 
         return this.constructPetriNet(eventList, yl);
     }

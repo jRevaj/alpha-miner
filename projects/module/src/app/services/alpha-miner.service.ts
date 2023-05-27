@@ -10,15 +10,22 @@ import {AlphaMinerSolver} from "../models/alpha-miner-solver";
 @Injectable({
     providedIn: 'root'
 })
+/**
+ * Service acting as a wrapper for Alpha Miner algorithm
+ */
 export class AlphaMinerService {
-    public loopsL2: boolean = true;
 
     constructor(private _duplicatePlaceRemover: DuplicatePlaceRemoverService) {
     }
 
+    /**
+     * Method that cleans event log and discovers Petri net using Alpha Miner algorithm
+     * @param log - event log
+     * @returns discovered Petri net and report
+     */
     public mine(log: Array<Trace>): NetAndReport {
-        const cleanedLog = cleanLog(log);
-        const alphaSolver = new AlphaMinerSolver();
+        const cleanedLog: Trace[] = cleanLog(log);
+        const alphaSolver: AlphaMinerSolver = new AlphaMinerSolver(false,false);
         return {
             net: this._duplicatePlaceRemover.removeDuplicatePlaces(alphaSolver.discoverWFNet(cleanedLog)),
             report: ["test"]
