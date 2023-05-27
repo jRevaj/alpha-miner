@@ -13,6 +13,8 @@ import {Transition} from "../../../../components/src/lib/models/pn/model/transit
 })
 export class AlphaMinerSolver {
     public loopsL2: boolean = true;
+    private startingEvents: Set<string> = new Set<string>();
+    private endingEvents: Set<string> = new Set<string>();
 
     constructor() {
     }
@@ -25,14 +27,15 @@ export class AlphaMinerSolver {
         // console.log("loops of length one: ", loopsL1);
 
         let eventList: Set<string> = new Set();
-        let startingEvents: Set<string> = new Set();
-        let endingEvents: Set<string> = new Set();
+        this.startingEvents = new Set<string>();
+        this.endingEvents = new Set<string>();
+
 
         // find list of all events & starting events & ending events
-        this.extractEvents(log, eventList, startingEvents, endingEvents);
-        console.log("eventList: ", eventList);
-        console.log("startingEvents: ", startingEvents);
-        console.log("endingEvents: ", endingEvents);
+        this.extractEvents(log, eventList, this.startingEvents, this.endingEvents);
+        console.debug("eventList: ", eventList);
+        console.debug("startingEvents: ", this.startingEvents);
+        console.debug("endingEvents: ", this.endingEvents);
 
         // generate matrix of relations from log
         const footprint: Footprint = new Footprint(eventList, log, true);
