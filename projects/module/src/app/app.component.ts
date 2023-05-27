@@ -34,7 +34,7 @@ export class AppComponent implements OnDestroy {
         this._sub?.unsubscribe()
     }
 
-    public processLog(files: Array<DropFile>) {
+    public processLog(files: Array<DropFile>): void {
         this.processing = true;
 
         this.log = this._logParser.parse(files[0].content);
@@ -54,6 +54,7 @@ export class AppComponent implements OnDestroy {
 
         // generate result files
         this.pnResult = new DropFile('model.pn', this._netSerializer.serialise(minerResult.net));
+
         // TODO: resolve report file type mismatch
         // this.reportResult = report.toDropFile('report.txt');
 
