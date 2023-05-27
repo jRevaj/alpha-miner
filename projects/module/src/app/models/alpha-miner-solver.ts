@@ -42,7 +42,8 @@ export class AlphaMinerSolver {
         console.debug("footprint matrix: ", footprint.footprint);
 
         // generate xl set
-        let xl: Set<Place> = this.generatePlacesFromFootprint(footprint, eventList);
+        let xl: Set<Set<string>[]> = this.generatePlacesFromFootprint(footprint, eventList);
+        console.debug("xl:", xl);
 
         // generate yl set by reducing xl set
         let yl: Array<string> = this.reduceXl(xl);
@@ -97,20 +98,14 @@ export class AlphaMinerSolver {
         }
     }
 
-    private generatePlacesFromFootprint(footprint: Footprint, eventList: Set<string>): Set<Place> {
-        let xl: Set<any> = new Set();
-        let pSet: Set<any> = setOfAllSubsets(eventList);
-        console.log("size of pSet: ", pSet.size);
+    private generatePlacesFromFootprint(footprint: Footprint, eventList: Set<string>): Set<Set<string>[]> {
+        let xl: Set<Set<string>[]> = new Set();
+        let pSet: Set<Set<string>> = setOfAllSubsets(eventList);
+        console.debug("size of pSet: ", pSet.size);
 
         // filter out subsets with empty value
-        pSet.forEach((e: any) => {
-            if (e.size == 0) {
-                pSet.delete(e);
-            }
-        });
-
-        // convert to arr
-        let pSetArr: Array<any> = _.toArray(pSet);
+        let pSetArr: Set<string>[] = Array.from(pSet);
+        pSetArr = pSetArr.filter(e => e.size !== 0);
 
         for (let i = 0; i < pSetArr.length; i++) {
             let first: Set<string> = pSetArr[i];
@@ -126,7 +121,7 @@ export class AlphaMinerSolver {
                 }
             }
         }
-        console.log("size of xl: ", xl.size);
+        console.debug("size of xl: ", xl.size);
         return xl;
     }
 
