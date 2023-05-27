@@ -82,39 +82,26 @@ export class Footprint {
     }
 
     public areEventsConnected(inputEvents: Set<string>, outputEvents: Set<string>): boolean {
+        const inputEventsArray: string[] = Array.from(inputEvents);
+        const outputEventsArray: string[] = Array.from(outputEvents);
+
         // for every input1, input2 => input1#input2
-        let inputTest: boolean = false;
-        for (const first of inputEvents) {
-            for (const second of inputEvents) {
-                inputTest = this.areConnected(first, second);
-                if (inputTest) {
-                    return false;
-                }
-            }
+        let inputTest: boolean = inputEventsArray.some(inputEvent1 =>
+            inputEventsArray.some(inputEvent2 => this.areConnected(inputEvent1, inputEvent2)));
+
+        if (inputTest) {
+            return false;
         }
 
         // for every output1, output2 => output1#output2
-        let outputTest: boolean = false;
-        for (const first of outputEvents) {
-            for (const second of outputEvents) {
-                outputTest = this.areConnected(first, second);
-                if (outputTest) {
-                    return false;
-                }
-            }
+        let outputTest: boolean = outputEventsArray.some(outputEvent1 =>
+            outputEventsArray.some(outputEvent2 => this.areConnected(outputEvent1, outputEvent2)));
+
+        if (outputTest) {
+            return false;
         }
 
-        // for every input in inputEvents && output in outputEvents => input>output
-        let ioTest: boolean = false;
-        for (const input of inputEvents) {
-            for (const output of outputEvents) {
-                ioTest = this.isFollowed(input, output);
-                if (!ioTest) {
-                    break;
-                }
-            }
-        }
-
-        return ioTest;
+        return inputEventsArray.every(inputEvent =>
+            outputEventsArray.every(outputEvent => this.isFollowed(inputEvent, outputEvent)));
     }
 }
