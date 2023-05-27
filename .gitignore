@@ -44,7 +44,4 @@ Thumbs.db
 # Testing files
 /model.pn
 /report.txt
-/projects/module/src/assets/repairExample.xes
-/projects/module/src/assets/teleclaims.xes
-/projects/module/src/assets/basic-test.xes
-/projects/module/src/assets/test.xes
+
