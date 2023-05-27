@@ -2,10 +2,19 @@ import {Relation} from "./relation";
 import {Trace} from "../../../../components/src/lib/models/log/model/trace";
 import * as _ from "lodash";
 
+/**
+ * This class represents the footprint matrix of the log.
+ */
 export class Footprint {
     public footprint: Relation[][] = [];
     public eventsToMatrix: Map<string, number> = new Map<string, number>();
 
+    /**
+     * Constructor of the footprint matrix.
+     * @param allEvents - set of all events
+     * @param eventLog - log of events
+     * @param loopsL2 - boolean value indicating whether loops of length 2 should be taken into account
+     */
     constructor(private allEvents: Set<string>, private eventLog: Array<Trace>, private loopsL2: boolean) {
         let idx = 0;
 
@@ -21,7 +30,7 @@ export class Footprint {
         for (const trace of eventLog) {
             for (let i = 0; i < trace.length() - 1; i++) {
                 let currentEventNum: number | undefined = this.eventsToMatrix.get(trace.get(i));
-                let nextEventNum: number | undefined = this.eventsToMatrix.get(trace.get(i+1));
+                let nextEventNum: number | undefined = this.eventsToMatrix.get(trace.get(i + 1));
 
                 if (currentEventNum !== undefined && nextEventNum !== undefined) {
                     if (this.footprint[currentEventNum][nextEventNum] == Relation.NOT_CONNECTED) {
@@ -44,9 +53,9 @@ export class Footprint {
             for (const trace of eventLog) {
                 let eventsInTrace: Array<string> = trace.eventNames;
                 for (let i = 0; i < eventsInTrace.length - 2; i++) {
-                    if (_.isEqual(eventsInTrace[i], eventsInTrace[i+2])) {
+                    if (_.isEqual(eventsInTrace[i], eventsInTrace[i + 2])) {
                         let currentEvent: number | undefined = this.eventsToMatrix.get(eventsInTrace[i]);
-                        let nextEvent: number | undefined = this.eventsToMatrix.get(eventsInTrace[i+1]);
+                        let nextEvent: number | undefined = this.eventsToMatrix.get(eventsInTrace[i + 1]);
 
                         if (currentEvent !== undefined && nextEvent !== undefined) {
                             this.footprint[currentEvent][nextEvent] = Relation.PRECEDES;
@@ -58,6 +67,11 @@ export class Footprint {
         }
     }
 
+    /**
+     * Returns the relation between two events.
+     * @param firstEvent - first event
+     * @param secondEvent - second event
+     */
     public getRelation(firstEvent: string, secondEvent: string): Relation | undefined {
         let rowIdx: number | undefined = this.eventsToMatrix.get(firstEvent);
         let colIdx: number | undefined = this.eventsToMatrix.get(secondEvent);
@@ -69,14 +83,30 @@ export class Footprint {
         return undefined;
     }
 
+    /**
+     * Returns true if the first event precedes the second event.
+     * @param firstEvent - first event
+     * @param secondEvent - second event
+     */
     public isFollowed(firstEvent: string, secondEvent: string): boolean {
         return this.getRelation(firstEvent, secondEvent) == Relation.PRECEDES;
     }
 
+    /**
+     * Returns true if the first event follows the second event.
+     * @param firstEvent - first event
+     * @param secondEvent - second event
+     */
     public areConnected(firstEvent: string, secondEvent: string): boolean {
         return this.getRelation(firstEvent, secondEvent) != Relation.NOT_CONNECTED;
     }
 
+    /**
+     * This method is used to check whether the input and output events of a module are connected between each other.
+     * Returns true if all input events precede all output events. Otherwise, returns false.
+     * @param inputEvents - set of input events
+     * @param outputEvents - set of output events
+     */
     public areEventsConnected(inputEvents: Set<string>, outputEvents: Set<string>): boolean {
         const inputEventsArray: string[] = Array.from(inputEvents);
         const outputEventsArray: string[] = Array.from(outputEvents);
