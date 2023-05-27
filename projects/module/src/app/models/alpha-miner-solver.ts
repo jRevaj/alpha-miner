@@ -1,20 +1,18 @@
-import {Injectable} from '@angular/core';
 import * as _ from 'lodash';
 import {Trace} from "../../../../components/src/lib/models/log/model/trace";
 import {Footprint} from "./footprint";
 import {Place} from "../../../../components/src/lib/models/pn/model/place";
-import {containsAll, setOfAllSubsets, sortYl} from "./utility";
+import {containsAll, customToString, setOfAllSubsets, sortYl} from "./utility";
 import {PetriNet} from "../../../../components/src/lib/models/pn/model/petri-net";
 import {Transition} from "../../../../components/src/lib/models/pn/model/transition";
 import {AlphaPlus} from "./alpha-plus";
 
-@Injectable({
-    providedIn: 'root'
-})
 /**
  * Class implementing Alpha Miner algorithm
  */
 export class AlphaMinerSolver {
+    public runtimeLogs: string[] = [];
+
     private readonly processLoopsL1: boolean;
     private readonly processLoopsL2: boolean;
     private readonly alphaPlus: AlphaPlus | undefined;
@@ -52,20 +50,26 @@ export class AlphaMinerSolver {
 
         // find list of all events & starting events & ending events
         this.extractEvents(log, eventList, this.startingEvents, this.endingEvents);
+        this.runtimeLogs.push("All events (T_L): " + Array.from(eventList).join(", "));
+        this.runtimeLogs.push("Starting events (T_I): " + Array.from(this.startingEvents).join(", "));
+        this.runtimeLogs.push("Ending events (T_O): " + Array.from(this.endingEvents).join(", ") + "\n");
         console.debug("eventList: ", eventList);
         console.debug("startingEvents: ", this.startingEvents);
         console.debug("endingEvents: ", this.endingEvents);
 
         // generate matrix of relations from log
         const footprint: Footprint = new Footprint(eventList, log, this.processLoopsL2);
+        this.runtimeLogs.push("Footprint matrix: \n" + footprint.footprint.map(row => row.join(", ")).join("\n") + "\n");
         console.debug("footprint matrix: ", footprint.footprint);
 
         // generate xl set
         let xl: Set<Set<string>[]> = this.generatePlacesFromFootprint(footprint, eventList);
+        this.runtimeLogs.push("X_L set: \n" + customToString(xl) + "\n");
         console.debug("xl:", xl);
 
         // generate yl set by reducing xl set
         let yl: Array<Set<string>[]> = this.reduceXl(xl);
+        this.runtimeLogs.push("Y_L set: \n" + customToString(yl) + "\n");
         console.debug("yl:", yl);
 
         // if loops of length 1 should be discovered, post-process yl set
@@ -104,6 +108,7 @@ export class AlphaMinerSolver {
     private generatePlacesFromFootprint(footprint: Footprint, eventList: Set<string>): Set<Set<string>[]> {
         let xl: Set<Set<string>[]> = new Set();
         let pSet: Set<Set<string>> = setOfAllSubsets(eventList);
+        this.runtimeLogs.push("Size of power set: " + pSet.size);
         console.debug("size of pSet: ", pSet.size);
 
         // filter out subsets with empty value
@@ -124,6 +129,8 @@ export class AlphaMinerSolver {
                 }
             }
         }
+
+        this.runtimeLogs.push("Size of X_L set: " + xl.size);
         console.debug("size of xl: ", xl.size);
         return xl;
     }

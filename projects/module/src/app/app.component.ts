@@ -44,7 +44,7 @@ export class AppComponent implements OnDestroy {
         this.log = this._logParser.parse(files[0].content);
         console.debug(this.log);
 
-        const runs = `number of traces: ${this.log.length}`;
+        const runs = `Number of traces: ${this.log.length}`;
 
         // solve petri net
         const start = performance.now();
@@ -59,8 +59,7 @@ export class AppComponent implements OnDestroy {
         // generate result files
         this.pnResult = new DropFile('model.pn', this._netSerializer.serialise(minerResult.net));
 
-        // TODO: resolve report file type mismatch
-        // this.reportResult = report.toDropFile('report.txt');
+        this.reportResult = new DropFile('report.txt', report.serialise());
 
         this.processing = false;
     }

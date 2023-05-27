@@ -25,10 +25,10 @@ export class AlphaMinerService {
      */
     public mine(log: Array<Trace>): NetAndReport {
         const cleanedLog: Trace[] = cleanLog(log);
-        const alphaSolver: AlphaMinerSolver = new AlphaMinerSolver(false,false);
+        const alphaSolver: AlphaMinerSolver = new AlphaMinerSolver(false, false);
         return {
             net: this._duplicatePlaceRemover.removeDuplicatePlaces(alphaSolver.discoverWFNet(cleanedLog)),
-            report: ["test"]
+            report: alphaSolver.runtimeLogs
         }
     }
 }
