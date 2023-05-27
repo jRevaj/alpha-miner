@@ -10,7 +10,7 @@ export class Footprint {
     public eventsToMatrix: Map<string, number> = new Map<string, number>();
 
     /**
-     * Constructor of the footprint matrix.
+     * Creates new instance of Footprint with filled matrix
      * @param allEvents - set of all events
      * @param eventLog - log of events
      * @param loopsL2 - boolean value indicating whether loops of length 2 should be taken into account
@@ -68,9 +68,10 @@ export class Footprint {
     }
 
     /**
-     * Returns the relation between two events.
+     * Method used to get relation between two events.
      * @param firstEvent - first event
      * @param secondEvent - second event
+     * @returns relation between two events
      */
     public getRelation(firstEvent: string, secondEvent: string): Relation | undefined {
         let rowIdx: number | undefined = this.eventsToMatrix.get(firstEvent);
@@ -84,18 +85,20 @@ export class Footprint {
     }
 
     /**
-     * Returns true if the first event precedes the second event.
+     * Method used to get all events that precede the given event.
      * @param firstEvent - first event
      * @param secondEvent - second event
+     * @returns boolean value indicating whether the first event precedes the second event
      */
     public isFollowed(firstEvent: string, secondEvent: string): boolean {
         return this.getRelation(firstEvent, secondEvent) == Relation.PRECEDES;
     }
 
     /**
-     * Returns true if the first event follows the second event.
+     * Method used to check if two events are connected.
      * @param firstEvent - first event
      * @param secondEvent - second event
+     * @returns boolean value indicating whether the first event is not connected to the second event
      */
     public areConnected(firstEvent: string, secondEvent: string): boolean {
         return this.getRelation(firstEvent, secondEvent) != Relation.NOT_CONNECTED;
@@ -103,9 +106,9 @@ export class Footprint {
 
     /**
      * This method is used to check whether the input and output events of a module are connected between each other.
-     * Returns true if all input events precede all output events. Otherwise, returns false.
      * @param inputEvents - set of input events
      * @param outputEvents - set of output events
+     * @returns true if all input events precede all output events. Otherwise, returns false.
      */
     public areEventsConnected(inputEvents: Set<string>, outputEvents: Set<string>): boolean {
         const inputEventsArray: string[] = Array.from(inputEvents);
