@@ -6,6 +6,25 @@
         <ilpn-file-upload descriptionText="Drop a XES log file here" [fileDisplay]="fdLog" [showText]="log === undefined" (fileContent)="processLog($event)"></ilpn-file-upload>
         <ilpn-file-download descriptionText="Click to download model" [fileDisplay]="fdPN" [disabled]="processing || pnResult === undefined" [files]="pnResult"></ilpn-file-download>
         <ilpn-file-download descriptionText="Click to download synthesised nets" [squareContent]="'X'" [disabled]="processing || reportResult === undefined"></ilpn-file-download>
+    </section>
+
+    <hr>
+    <h2>The algorithm is implemented as follows:</h2>
+    <div fxLayout="row" fxLayoutAlign="center start">
+        <pre>
+            <code class="code">
+                INPUT: L = xes event log
+                1. T<sub>L</sub> = {{t ∈ T | ∃σ∈<sub>L</sub> t ∈ σ}
+                2. T<sub>I</sub> = {{t ∈ T | ∃σ∈<sub>L</sub> t = first(σ)}
+                3. T<sub>O</sub> = {{t ∈ T | ∃σ∈<sub>L</sub> t = last(σ)}
+                4. X<sub>L</sub> = {{(A, B) | A ⊆ T<sub>L</sub> ∧ A ̸ = ∅ ∧ B ⊆ T<sub>L</sub> ∧ B ̸ = ∅ ∧ ∀a∈A ∀b∈B a →<sub>L</sub> b ∧ ∀a1,a2∈A a1 #<sub>L</sub> a2 ∧ ∀b1,b2∈B b1 #<sub>L</sub> b2}
+                5. Y<sub>L</sub> = {{(A, B) ∈ X<sub>L</sub> | ∀(A′,B′)∈X<sub>L</sub> A ⊆ A′ ∧ B ⊆ B′ =⇒ (A, B) = (A′, B′)}
+                6. P<sub>L</sub> = {{p(A,B) | (A, B) ∈ Y<sub>L</sub>} ∪ {{i<sub>L</sub>, o<sub>L</sub>}
+                7. F<sub>L</sub> = {{(a, p(A,B)) | (A, B) ∈ Y<sub>L</sub> ∧ a ∈ A} ∪ {{(p(A,B), b) | (A, B) ∈ Y<sub>L</sub> ∧ b ∈ B} ∪ {{(i<sub>L</sub>, t) | t ∈ T<sub>I</sub> } ∪ {{(t, o<sub>L</sub>) | t ∈ T<sub>O</sub>}
+                8. α(<sub>L</sub>) = (P<sub>L</sub>, T<sub>L</sub>, F<sub>L</sub>)
+                OUTPUT: PN + result text file
+            </code>
+        </pre>
     </div>
 
     <hr>
@@ -14,6 +33,13 @@
         <ilpn-descriptive-link [fileDisplay]="fdLog" title="Repair example" description="from the ProM framework tutorial [1]" link="assets/repairExample.xes" [download]="true" [descriptionLines]="4"></ilpn-descriptive-link>
         <ilpn-descriptive-link [fileDisplay]="fdLog" title="Teleclaims example" description="introduced in Chapter 8 of the Process Mining: Data Science in Action book [1]" link="assets/teleclaims.xes" [download]="true" [descriptionLines]="4"></ilpn-descriptive-link>
     </div>
-
     <br>
+    <span>[1] Example from article <a href="https://ieeexplore.ieee.org/document/1316839">Workflow mining: discovering process models from event logs</a> that was rewritten into XES format.</span>
+    <span>[2] Log L_2 shown in Fig. 5.2 of book <a href="https://link.springer.com/book/10.1007/978-3-642-19345-3">Process Mining: Discovery, Conformance and Enhancement of Business Processes</a> that was rewritten to XES format.</span>
+
+    <hr>
+    <h2>Explanation of the algorithm:</h2>
+    <div fxLayout="row" fxLayoutAlign="center start">
+        <p>L is the event log over some set of activities T. The algorithm creates a Petri net (P<sub>L</sub>, T<sub>L</sub>, F<sub>L</sub>). In the first step, we extract all unique activities from  event log L. These activities are stored in the T<sub>L</sub> set. Activities from this set will correspond to the transitions in our generated network. In the second step, the initial activities, i.e., those that appear first in any run, are found and stored in the T<sub>I</sub> set. In the next step, the activities that appear last in any run are stored in T<sub>O</sub> set. The most important steps of the algorithm are 4th and 5th. These steps form the core of the whole algorithm. Their task is to determine the locations in our generated network and the connections between transitions. Our goal is to construct places p(A,B) such that A is the set of input transitions and B is the set of output transitions for a given place. All elements of A should have causal dependencies with all elements of B. Moreover the elements in A should not follow each other. The same rule applies of course to the B set too. In this step the footprint matrix is very helpfull. This matrix contains what causal dependency is between each activity from event log. If we generate a place for any element in X<sub>L</sub>, there would be too many places. Therefore, only "maximal pairs" (A,B) of these elements should be included, so the fifth step is exactly this. We take only "maximal pairs" from X<sub>L</sub> and store them in Y<sub>L</sub> set. Each element of this set corresponds to a place connecting the transitions of A with the transitions of B. Since we are trying to create a workflow net, in the next step we add the starting place i<sub>L</sub> to this set together with the terminating place o<sub>L</sub> to obtain the set P<sub>L</sub>. In the secenth step, edges between transitions and places are generated. All initial transitions are associated with the starting place and all ending transition with terminating place. The result is a Petri net (P<sub>L</sub>,T<sub>L</sub>,F<sub>L</sub>).</p>
+    </div>
 </ilpn-page-layout>
