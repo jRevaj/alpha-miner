@@ -58,7 +58,6 @@ export class AppComponent implements OnDestroy {
 
         // generate result files
         this.pnResult = new DropFile('model.pn', this._netSerializer.serialise(minerResult.net));
-
         this.reportResult = new DropFile('report.txt', report.serialise());
 
         this.processing = false;
