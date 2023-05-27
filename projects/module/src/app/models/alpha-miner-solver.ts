@@ -18,11 +18,11 @@ export class AlphaMinerSolver {
     }
 
     public discoverWFNet(log: Array<Trace>): PetriNet {
-        let loopsL1: Set<LoopLengthOne> = new Set();
-        for (const trace of log) {
-            this.processLoopsL1(trace, loopsL1);
-        }
-        console.log("loops of length one: ", loopsL1);
+        // let loopsL1: Set<LoopLengthOne> = new Set();
+        // for (const trace of log) {
+        //     this.processLoopsL1(trace, loopsL1);
+        // }
+        // console.log("loops of length one: ", loopsL1);
 
         let eventList: Set<string> = new Set();
         let startingEvents: Set<string> = new Set();
@@ -72,7 +72,7 @@ export class AlphaMinerSolver {
         return -1;
     }
 
-    private processLoopsL1(trace: Trace, loopsL1: Set<LoopLengthOne>) {
+    private processLoopsL1(trace: Trace, loopsL1: Set<LoopLengthOne>): void {
         // TODO: test method if working correctly
         let start;
         let eventsInTrace: Array<string> = trace.eventNames;
