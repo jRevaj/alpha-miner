@@ -46,7 +46,8 @@ export class AlphaMinerSolver {
         console.debug("xl:", xl);
 
         // generate yl set by reducing xl set
-        let yl: Array<string> = this.reduceXl(xl);
+        let yl: Array<Set<string>[]> = this.reduceXl(xl);
+        console.debug("yl:", yl);
 
         // TODO: take in account discovered loops of length 1
         // this.postProcessLoopsL1(loopsL1, yl, eventList);
@@ -125,9 +126,9 @@ export class AlphaMinerSolver {
         return xl;
     }
 
-    private reduceXl(xl: Set<Place>): Array<string> {
-        let toRemove: Set<any> = new Set();
-        let potential: Array<any> = _.toArray(xl);
+    private reduceXl(xl: Set<Set<string>[]>): Array<Set<string>[]> {
+        let toRemove: Set<Set<string>[]> = new Set();
+        let potential: Array<Set<string>[]> = Array.from(xl);
 
         for (let i = 0; i < potential.length - 1; i++) {
             let iPotential: Set<string>[] = potential[i];
@@ -153,10 +154,8 @@ export class AlphaMinerSolver {
             }
         }
 
-        let toRemoveArr: Array<any> = _.toArray(toRemove);
-        let yl: Array<any> = _.difference(potential, toRemoveArr);
-        console.log("yl set: ", yl);
-        return yl;
+        let toRemoveArr: Array<Set<string>[]> = Array.from(toRemove);
+        return _.difference(potential, toRemoveArr);
     }
 
     private postProcessLoopsL1(loopsL1: Set<LoopLengthOne>, yl: Array<string>, eventList: Set<string>): void {
