@@ -23,3 +23,15 @@ export function setOfAllSubsets(original: Set<string>): Set<any> {
 export function containsAll(arr: Array<string>, target: Array<string>): boolean {
     return target.every(e => arr.includes(e));
 }
+
+/**
+ * Sorts the given array of sets of sets of strings by the string representation of the sets of sets of strings.
+ * @param yl: Array<Set<string>[]> - the array of sets of sets of strings to sort
+ */
+export function sortYl(yl: Array<Set<string>[]>): Array<Set<string>[]> {
+    return yl.sort((a, b) => {
+        const strA = a.map(set => Array.from(set).join('')).join('');
+        const strB = b.map(set => Array.from(set).join('')).join('');
+        return strA.localeCompare(strB);
+    });
+}
