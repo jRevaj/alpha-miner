@@ -11,6 +11,9 @@ import {Transition} from "../../../../components/src/lib/models/pn/model/transit
 @Injectable({
     providedIn: 'root'
 })
+/**
+ * Class implementing Alpha Miner algorithm
+ */
 export class AlphaMinerSolver {
     public loopsL2: boolean = true;
     private startingEvents: Set<string> = new Set<string>();
@@ -19,6 +22,11 @@ export class AlphaMinerSolver {
     constructor() {
     }
 
+    /**
+     * Method containing main logic of alpha algorithm
+     * @param log - cleaned event log
+     * @returns discovered Petri net
+     */
     public discoverWFNet(log: Array<Trace>): PetriNet {
         // let loopsL1: Set<LoopLengthOne> = new Set();
         // for (const trace of log) {
@@ -55,6 +63,13 @@ export class AlphaMinerSolver {
         return this.constructPetriNet(eventList, yl);
     }
 
+    /**
+     * First three steps of alpha algorithm. Method fills allEvents, startingEvents and endingEvents sets.
+     * @param eventLog - event log
+     * @param allEvents - set of all events
+     * @param startingEvents - set of starting events
+     * @param endingEvents - set of ending events
+     */
     private extractEvents(eventLog: Array<Trace>, allEvents: Set<string>, startingEvents: Set<string>, endingEvents: Set<string>): void {
         allEvents.clear();
         startingEvents.clear();
@@ -67,38 +82,12 @@ export class AlphaMinerSolver {
         }
     }
 
-    private checkL1(eventsInTrace: Array<string>) {
-        for (let i = 0; i < eventsInTrace.length - 1; i++) {
-            if (_.isEqual(eventsInTrace[i], eventsInTrace[i+1])) {
-                return i;
-            }
-        }
-
-        return -1;
-    }
-
-    private processLoopsL1(trace: Trace, loopsL1: Set<LoopLengthOne>): void {
-        // TODO: test method if working correctly
-        let start;
-        let eventsInTrace: Array<string> = trace.eventNames;
-        while ((start = this.checkL1(eventsInTrace)) != -1) {
-            let prev: number = start - 1;
-            let currentEvent: number = start;
-            while (currentEvent < eventsInTrace.length - 1 && _.isEqual(eventsInTrace[currentEvent], eventsInTrace[currentEvent + 1])) {
-                currentEvent++;
-            }
-
-            currentEvent++;
-            let loop: LoopLengthOne = new LoopLengthOne(eventsInTrace[prev], eventsInTrace[start], eventsInTrace[currentEvent]);
-            let numOfLoopedEvents: number = currentEvent - start;
-            for (let i = 0; i < numOfLoopedEvents; i++) {
-                eventsInTrace.splice(start, 1);
-            }
-
-            loopsL1.add(loop);
-        }
-    }
-
+    /**
+     * Generates xl set from footprint matrix
+     * @param footprint - footprint matrix
+     * @param eventList - list of all events
+     * @returns xl set
+     */
     private generatePlacesFromFootprint(footprint: Footprint, eventList: Set<string>): Set<Set<string>[]> {
         let xl: Set<Set<string>[]> = new Set();
         let pSet: Set<Set<string>> = setOfAllSubsets(eventList);
@@ -126,6 +115,11 @@ export class AlphaMinerSolver {
         return xl;
     }
 
+    /**
+     * Generates yl set from xl set
+     * @param xl - xl set
+     * @returns yl set
+     */
     private reduceXl(xl: Set<Set<string>[]>): Array<Set<string>[]> {
         let toRemove: Set<Set<string>[]> = new Set();
         let potential: Array<Set<string>[]> = Array.from(xl);
