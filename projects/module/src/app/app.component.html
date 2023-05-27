@@ -1,8 +1,9 @@
 <ilpn-page-layout>
     <h2>Alpha Miner</h2>
+    <p style="text-align: center" fxLayoutAlign="center">Mining a Petri net from an event log using the Alpha miner.<br>We use basic algorithm without extensions for mining short loops or non-local dependencies.</p>
     <hr>
 
-    <div fxLayout="row wrap" fxLayoutAlign="space-evenly start">
+    <section fxLayout="row wrap" fxLayoutAlign="space-evenly start">
         <ilpn-file-upload descriptionText="Drop a XES log file here" [fileDisplay]="fdLog" [showText]="log === undefined" (fileContent)="processLog($event)"></ilpn-file-upload>
         <ilpn-file-download descriptionText="Click to download model" [fileDisplay]="fdPN" [disabled]="processing || pnResult === undefined" [files]="pnResult"></ilpn-file-download>
         <ilpn-file-download descriptionText="Click to download synthesised nets" [squareContent]="'X'" [disabled]="processing || reportResult === undefined"></ilpn-file-download>
