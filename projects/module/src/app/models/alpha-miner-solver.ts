@@ -183,7 +183,7 @@ export class AlphaMinerSolver {
         const net: PetriNet = new PetriNet();
 
         eventList.forEach(event => {
-            const t: Transition = new Transition(event, 0, 0, event);
+            const t: Transition = new Transition(event, event);
             net.addTransition(t);
         })
 
@@ -191,7 +191,7 @@ export class AlphaMinerSolver {
 
         // add places and arcs
         yl.forEach((mapping, index) => {
-            const p: Place = new Place(0, 0, 0, "p" + (index + 1));
+            const p: Place = new Place(0, "p" + (index + 1));
             net.addPlace(p);
             for (const inEvent of mapping[0]) {
                 const t: Transition | undefined = net.getTransition(inEvent);
@@ -210,12 +210,12 @@ export class AlphaMinerSolver {
         // add start and end places
         for (const t of net.getTransitions()) {
             if (t.ingoingArcs.length === 0 && this.startingEvents.has(t.getString())) {
-                const p = new Place(1, 0, 0, "in");
+                const p = new Place(1, "in");
                 net.addPlace(p);
                 net.addArc(p, t);
             }
             if (t.outgoingArcs.length === 0 && this.endingEvents.has(t.getString())) {
-                const p = new Place(0, 0, 0, "out");
+                const p = new Place(0, "out");
                 net.addPlace(p);
                 net.addArc(t, p);
             }
