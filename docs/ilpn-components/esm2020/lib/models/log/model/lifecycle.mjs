@@ -1,6 +1,0 @@
-export var Lifecycle;
-(function (Lifecycle) {
-    Lifecycle["START"] = "start";
-    Lifecycle["COMPLETE"] = "complete";
-})(Lifecycle || (Lifecycle = {}));
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoibGlmZWN5Y2xlLmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiLi4vLi4vLi4vLi4vLi4vLi4vLi4vcHJvamVjdHMvY29tcG9uZW50cy9zcmMvbGliL21vZGVscy9sb2cvbW9kZWwvbGlmZWN5Y2xlLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBLE1BQU0sQ0FBTixJQUFZLFNBR1g7QUFIRCxXQUFZLFNBQVM7SUFDakIsNEJBQWUsQ0FBQTtJQUNmLGtDQUFxQixDQUFBO0FBQ3pCLENBQUMsRUFIVyxTQUFTLEtBQVQsU0FBUyxRQUdwQiIsInNvdXJjZXNDb250ZW50IjpbImV4cG9ydCBlbnVtIExpZmVjeWNsZSB7XHJcbiAgICBTVEFSVCA9ICdzdGFydCcsXHJcbiAgICBDT01QTEVURSA9ICdjb21wbGV0ZSdcclxufVxyXG4iXX0=
