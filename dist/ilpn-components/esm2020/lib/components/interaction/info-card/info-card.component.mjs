@@ -1,0 +1,59 @@
+import { Component, Input } from '@angular/core';
+import * as i0 from "@angular/core";
+import * as i1 from "@angular/flex-layout/flex";
+import * as i2 from "@angular/flex-layout/extended";
+import * as i3 from "@angular/common";
+export class InfoCardComponent {
+    constructor() {
+        this.squareContent = '?';
+        this.title = '';
+        this.description = '';
+        this.disabled = false;
+        this.descriptionLines = 3;
+    }
+    resolveSquareContent() {
+        if (this.fileDisplay !== undefined) {
+            return this.fileDisplay.icon;
+        }
+        return this.squareContent;
+    }
+    resolveSquareColor() {
+        if (this.disabled) {
+            return 'grey';
+        }
+        if (this.fileDisplay !== undefined) {
+            return this.fileDisplay.color;
+        }
+        return 'black';
+    }
+    resolveBorderColor() {
+        if (this.disabled) {
+            return 'grey';
+        }
+        else {
+            return 'black';
+        }
+    }
+    resolveDescriptionHeight() {
+        return `${this.descriptionLines}em`;
+    }
+}
+InfoCardComponent.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "13.1.3", ngImport: i0, type: InfoCardComponent, deps: [], target: i0.ɵɵFactoryTarget.Component });
+InfoCardComponent.ɵcmp = i0.ɵɵngDeclareComponent({ minVersion: "12.0.0", version: "13.1.3", type: InfoCardComponent, selector: "ilpn-info-card", inputs: { squareContent: "squareContent", title: "title", description: "description", fileDisplay: "fileDisplay", disabled: "disabled", descriptionLines: "descriptionLines" }, ngImport: i0, template: "<div class=\"border\" [ngClass]=\"{'border-enabled': !disabled}\" fxLayout=\"row\" fxLayoutAlign=\"start top\">\r\n    <div class=\"square\" [ngStyle]=\"{'color': resolveSquareColor(), 'border-color': resolveBorderColor()}\" fxLayout=\"row\" fxLayoutAlign=\"center center\" fxFlex=\"nogrow\">\r\n        {{resolveSquareContent()}}\r\n    </div>\r\n    <div class=\"description\" fxLayout=\"column\" fxLayoutAlign=\"top center\" fxFlex>\r\n        <span>{{title}}</span>\r\n        <hr class=\"width100\">\r\n        <span class=\"description-min-height\" [ngStyle]=\"{'height': resolveDescriptionHeight()}\">{{description}}</span>\r\n    </div>\r\n</div>\r\n", styles: [".border{width:320px;margin:10px;border:2px solid grey;padding:5px;float:left}.border-enabled:hover{border-color:#000}.square{min-width:50px;min-height:50px;width:50px;height:50px;margin:10px;border-width:3px;border-style:solid;font-size:30px}.description{margin:5px;font-weight:300;font-size:16px;text-align:start}.width100{width:100%}.description-min-height{min-height:3em}\n"], directives: [{ type: i1.DefaultLayoutDirective, selector: "  [fxLayout], [fxLayout.xs], [fxLayout.sm], [fxLayout.md],  [fxLayout.lg], [fxLayout.xl], [fxLayout.lt-sm], [fxLayout.lt-md],  [fxLayout.lt-lg], [fxLayout.lt-xl], [fxLayout.gt-xs], [fxLayout.gt-sm],  [fxLayout.gt-md], [fxLayout.gt-lg]", inputs: ["fxLayout", "fxLayout.xs", "fxLayout.sm", "fxLayout.md", "fxLayout.lg", "fxLayout.xl", "fxLayout.lt-sm", "fxLayout.lt-md", "fxLayout.lt-lg", "fxLayout.lt-xl", "fxLayout.gt-xs", "fxLayout.gt-sm", "fxLayout.gt-md", "fxLayout.gt-lg"] }, { type: i1.DefaultLayoutAlignDirective, selector: "  [fxLayoutAlign], [fxLayoutAlign.xs], [fxLayoutAlign.sm], [fxLayoutAlign.md],  [fxLayoutAlign.lg], [fxLayoutAlign.xl], [fxLayoutAlign.lt-sm], [fxLayoutAlign.lt-md],  [fxLayoutAlign.lt-lg], [fxLayoutAlign.lt-xl], [fxLayoutAlign.gt-xs], [fxLayoutAlign.gt-sm],  [fxLayoutAlign.gt-md], [fxLayoutAlign.gt-lg]", inputs: ["fxLayoutAlign", "fxLayoutAlign.xs", "fxLayoutAlign.sm", "fxLayoutAlign.md", "fxLayoutAlign.lg", "fxLayoutAlign.xl", "fxLayoutAlign.lt-sm", "fxLayoutAlign.lt-md", "fxLayoutAlign.lt-lg", "fxLayoutAlign.lt-xl", "fxLayoutAlign.gt-xs", "fxLayoutAlign.gt-sm", "fxLayoutAlign.gt-md", "fxLayoutAlign.gt-lg"] }, { type: i2.DefaultClassDirective, selector: "  [ngClass], [ngClass.xs], [ngClass.sm], [ngClass.md], [ngClass.lg], [ngClass.xl],  [ngClass.lt-sm], [ngClass.lt-md], [ngClass.lt-lg], [ngClass.lt-xl],  [ngClass.gt-xs], [ngClass.gt-sm], [ngClass.gt-md], [ngClass.gt-lg]", inputs: ["ngClass", "ngClass.xs", "ngClass.sm", "ngClass.md", "ngClass.lg", "ngClass.xl", "ngClass.lt-sm", "ngClass.lt-md", "ngClass.lt-lg", "ngClass.lt-xl", "ngClass.gt-xs", "ngClass.gt-sm", "ngClass.gt-md", "ngClass.gt-lg"] }, { type: i3.NgClass, selector: "[ngClass]", inputs: ["class", "ngClass"] }, { type: i1.DefaultFlexDirective, selector: "  [fxFlex], [fxFlex.xs], [fxFlex.sm], [fxFlex.md],  [fxFlex.lg], [fxFlex.xl], [fxFlex.lt-sm], [fxFlex.lt-md],  [fxFlex.lt-lg], [fxFlex.lt-xl], [fxFlex.gt-xs], [fxFlex.gt-sm],  [fxFlex.gt-md], [fxFlex.gt-lg]", inputs: ["fxFlex", "fxFlex.xs", "fxFlex.sm", "fxFlex.md", "fxFlex.lg", "fxFlex.xl", "fxFlex.lt-sm", "fxFlex.lt-md", "fxFlex.lt-lg", "fxFlex.lt-xl", "fxFlex.gt-xs", "fxFlex.gt-sm", "fxFlex.gt-md", "fxFlex.gt-lg"] }, { type: i2.DefaultStyleDirective, selector: "  [ngStyle],  [ngStyle.xs], [ngStyle.sm], [ngStyle.md], [ngStyle.lg], [ngStyle.xl],  [ngStyle.lt-sm], [ngStyle.lt-md], [ngStyle.lt-lg], [ngStyle.lt-xl],  [ngStyle.gt-xs], [ngStyle.gt-sm], [ngStyle.gt-md], [ngStyle.gt-lg]", inputs: ["ngStyle", "ngStyle.xs", "ngStyle.sm", "ngStyle.md", "ngStyle.lg", "ngStyle.xl", "ngStyle.lt-sm", "ngStyle.lt-md", "ngStyle.lt-lg", "ngStyle.lt-xl", "ngStyle.gt-xs", "ngStyle.gt-sm", "ngStyle.gt-md", "ngStyle.gt-lg"] }, { type: i3.NgStyle, selector: "[ngStyle]", inputs: ["ngStyle"] }] });
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "13.1.3", ngImport: i0, type: InfoCardComponent, decorators: [{
+            type: Component,
+            args: [{ selector: 'ilpn-info-card', template: "<div class=\"border\" [ngClass]=\"{'border-enabled': !disabled}\" fxLayout=\"row\" fxLayoutAlign=\"start top\">\r\n    <div class=\"square\" [ngStyle]=\"{'color': resolveSquareColor(), 'border-color': resolveBorderColor()}\" fxLayout=\"row\" fxLayoutAlign=\"center center\" fxFlex=\"nogrow\">\r\n        {{resolveSquareContent()}}\r\n    </div>\r\n    <div class=\"description\" fxLayout=\"column\" fxLayoutAlign=\"top center\" fxFlex>\r\n        <span>{{title}}</span>\r\n        <hr class=\"width100\">\r\n        <span class=\"description-min-height\" [ngStyle]=\"{'height': resolveDescriptionHeight()}\">{{description}}</span>\r\n    </div>\r\n</div>\r\n", styles: [".border{width:320px;margin:10px;border:2px solid grey;padding:5px;float:left}.border-enabled:hover{border-color:#000}.square{min-width:50px;min-height:50px;width:50px;height:50px;margin:10px;border-width:3px;border-style:solid;font-size:30px}.description{margin:5px;font-weight:300;font-size:16px;text-align:start}.width100{width:100%}.description-min-height{min-height:3em}\n"] }]
+        }], ctorParameters: function () { return []; }, propDecorators: { squareContent: [{
+                type: Input
+            }], title: [{
+                type: Input
+            }], description: [{
+                type: Input
+            }], fileDisplay: [{
+                type: Input
+            }], disabled: [{
+                type: Input
+            }], descriptionLines: [{
+                type: Input
+            }] } });
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiaW5mby1jYXJkLmNvbXBvbmVudC5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uLy4uLy4uLy4uL3Byb2plY3RzL2NvbXBvbmVudHMvc3JjL2xpYi9jb21wb25lbnRzL2ludGVyYWN0aW9uL2luZm8tY2FyZC9pbmZvLWNhcmQuY29tcG9uZW50LnRzIiwiLi4vLi4vLi4vLi4vLi4vLi4vLi4vcHJvamVjdHMvY29tcG9uZW50cy9zcmMvbGliL2NvbXBvbmVudHMvaW50ZXJhY3Rpb24vaW5mby1jYXJkL2luZm8tY2FyZC5jb21wb25lbnQuaHRtbCJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQSxPQUFPLEVBQUMsU0FBUyxFQUFFLEtBQUssRUFBQyxNQUFNLGVBQWUsQ0FBQzs7Ozs7QUFRL0MsTUFBTSxPQUFPLGlCQUFpQjtJQVMxQjtRQVBTLGtCQUFhLEdBQVcsR0FBRyxDQUFDO1FBQzVCLFVBQUssR0FBVyxFQUFFLENBQUM7UUFDbkIsZ0JBQVcsR0FBVyxFQUFFLENBQUM7UUFFekIsYUFBUSxHQUFHLEtBQUssQ0FBQztRQUNqQixxQkFBZ0IsR0FBRyxDQUFDLENBQUM7SUFHOUIsQ0FBQztJQUVELG9CQUFvQjtRQUNoQixJQUFJLElBQUksQ0FBQyxXQUFXLEtBQUssU0FBUyxFQUFFO1lBQ2hDLE9BQU8sSUFBSSxDQUFDLFdBQVcsQ0FBQyxJQUFJLENBQUM7U0FDaEM7UUFDRCxPQUFPLElBQUksQ0FBQyxhQUFhLENBQUM7SUFDOUIsQ0FBQztJQUVELGtCQUFrQjtRQUNkLElBQUksSUFBSSxDQUFDLFFBQVEsRUFBRTtZQUNmLE9BQU8sTUFBTSxDQUFDO1NBQ2pCO1FBQ0QsSUFBSSxJQUFJLENBQUMsV0FBVyxLQUFLLFNBQVMsRUFBRTtZQUNoQyxPQUFPLElBQUksQ0FBQyxXQUFXLENBQUMsS0FBSyxDQUFDO1NBQ2pDO1FBQ0QsT0FBTyxPQUFPLENBQUM7SUFDbkIsQ0FBQztJQUVELGtCQUFrQjtRQUNkLElBQUksSUFBSSxDQUFDLFFBQVEsRUFBRTtZQUNmLE9BQU8sTUFBTSxDQUFDO1NBQ2pCO2FBQU07WUFDSCxPQUFPLE9BQU8sQ0FBQztTQUNsQjtJQUNMLENBQUM7SUFFRCx3QkFBd0I7UUFDcEIsT0FBTyxHQUFHLElBQUksQ0FBQyxnQkFBZ0IsSUFBSSxDQUFDO0lBQ3hDLENBQUM7OzhHQXZDUSxpQkFBaUI7a0dBQWpCLGlCQUFpQixzT0NSOUIsb3BCQVVBOzJGREZhLGlCQUFpQjtrQkFMN0IsU0FBUzsrQkFDSSxnQkFBZ0I7MEVBTWpCLGFBQWE7c0JBQXJCLEtBQUs7Z0JBQ0csS0FBSztzQkFBYixLQUFLO2dCQUNHLFdBQVc7c0JBQW5CLEtBQUs7Z0JBQ0csV0FBVztzQkFBbkIsS0FBSztnQkFDRyxRQUFRO3NCQUFoQixLQUFLO2dCQUNHLGdCQUFnQjtzQkFBeEIsS0FBSyIsInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7Q29tcG9uZW50LCBJbnB1dH0gZnJvbSAnQGFuZ3VsYXIvY29yZSc7XHJcbmltcG9ydCB7RmlsZURpc3BsYXl9IGZyb20gJy4uLy4uL2xheW91dC9maWxlLWRpc3BsYXknO1xyXG5cclxuQENvbXBvbmVudCh7XHJcbiAgICBzZWxlY3RvcjogJ2lscG4taW5mby1jYXJkJyxcclxuICAgIHRlbXBsYXRlVXJsOiAnLi9pbmZvLWNhcmQuY29tcG9uZW50Lmh0bWwnLFxyXG4gICAgc3R5bGVVcmxzOiBbJy4vaW5mby1jYXJkLmNvbXBvbmVudC5zY3NzJ11cclxufSlcclxuZXhwb3J0IGNsYXNzIEluZm9DYXJkQ29tcG9uZW50IHtcclxuXHJcbiAgICBASW5wdXQoKSBzcXVhcmVDb250ZW50OiBzdHJpbmcgPSAnPyc7XHJcbiAgICBASW5wdXQoKSB0aXRsZTogc3RyaW5nID0gJyc7XHJcbiAgICBASW5wdXQoKSBkZXNjcmlwdGlvbjogc3RyaW5nID0gJyc7XHJcbiAgICBASW5wdXQoKSBmaWxlRGlzcGxheTogRmlsZURpc3BsYXkgfCB1bmRlZmluZWQ7XHJcbiAgICBASW5wdXQoKSBkaXNhYmxlZCA9IGZhbHNlO1xyXG4gICAgQElucHV0KCkgZGVzY3JpcHRpb25MaW5lcyA9IDM7XHJcblxyXG4gICAgY29uc3RydWN0b3IoKSB7XHJcbiAgICB9XHJcblxyXG4gICAgcmVzb2x2ZVNxdWFyZUNvbnRlbnQoKTogc3RyaW5nIHtcclxuICAgICAgICBpZiAodGhpcy5maWxlRGlzcGxheSAhPT0gdW5kZWZpbmVkKSB7XHJcbiAgICAgICAgICAgIHJldHVybiB0aGlzLmZpbGVEaXNwbGF5Lmljb247XHJcbiAgICAgICAgfVxyXG4gICAgICAgIHJldHVybiB0aGlzLnNxdWFyZUNvbnRlbnQ7XHJcbiAgICB9XHJcblxyXG4gICAgcmVzb2x2ZVNxdWFyZUNvbG9yKCk6IHN0cmluZyB7XHJcbiAgICAgICAgaWYgKHRoaXMuZGlzYWJsZWQpIHtcclxuICAgICAgICAgICAgcmV0dXJuICdncmV5JztcclxuICAgICAgICB9XHJcbiAgICAgICAgaWYgKHRoaXMuZmlsZURpc3BsYXkgIT09IHVuZGVmaW5lZCkge1xyXG4gICAgICAgICAgICByZXR1cm4gdGhpcy5maWxlRGlzcGxheS5jb2xvcjtcclxuICAgICAgICB9XHJcbiAgICAgICAgcmV0dXJuICdibGFjayc7XHJcbiAgICB9XHJcblxyXG4gICAgcmVzb2x2ZUJvcmRlckNvbG9yKCk6IHN0cmluZyB7XHJcbiAgICAgICAgaWYgKHRoaXMuZGlzYWJsZWQpIHtcclxuICAgICAgICAgICAgcmV0dXJuICdncmV5JztcclxuICAgICAgICB9IGVsc2Uge1xyXG4gICAgICAgICAgICByZXR1cm4gJ2JsYWNrJztcclxuICAgICAgICB9XHJcbiAgICB9XHJcblxyXG4gICAgcmVzb2x2ZURlc2NyaXB0aW9uSGVpZ2h0KCk6IHN0cmluZyB7XHJcbiAgICAgICAgcmV0dXJuIGAke3RoaXMuZGVzY3JpcHRpb25MaW5lc31lbWA7XHJcbiAgICB9XHJcblxyXG59XHJcbiIsIjxkaXYgY2xhc3M9XCJib3JkZXJcIiBbbmdDbGFzc109XCJ7J2JvcmRlci1lbmFibGVkJzogIWRpc2FibGVkfVwiIGZ4TGF5b3V0PVwicm93XCIgZnhMYXlvdXRBbGlnbj1cInN0YXJ0IHRvcFwiPlxyXG4gICAgPGRpdiBjbGFzcz1cInNxdWFyZVwiIFtuZ1N0eWxlXT1cInsnY29sb3InOiByZXNvbHZlU3F1YXJlQ29sb3IoKSwgJ2JvcmRlci1jb2xvcic6IHJlc29sdmVCb3JkZXJDb2xvcigpfVwiIGZ4TGF5b3V0PVwicm93XCIgZnhMYXlvdXRBbGlnbj1cImNlbnRlciBjZW50ZXJcIiBmeEZsZXg9XCJub2dyb3dcIj5cclxuICAgICAgICB7e3Jlc29sdmVTcXVhcmVDb250ZW50KCl9fVxyXG4gICAgPC9kaXY+XHJcbiAgICA8ZGl2IGNsYXNzPVwiZGVzY3JpcHRpb25cIiBmeExheW91dD1cImNvbHVtblwiIGZ4TGF5b3V0QWxpZ249XCJ0b3AgY2VudGVyXCIgZnhGbGV4PlxyXG4gICAgICAgIDxzcGFuPnt7dGl0bGV9fTwvc3Bhbj5cclxuICAgICAgICA8aHIgY2xhc3M9XCJ3aWR0aDEwMFwiPlxyXG4gICAgICAgIDxzcGFuIGNsYXNzPVwiZGVzY3JpcHRpb24tbWluLWhlaWdodFwiIFtuZ1N0eWxlXT1cInsnaGVpZ2h0JzogcmVzb2x2ZURlc2NyaXB0aW9uSGVpZ2h0KCl9XCI+e3tkZXNjcmlwdGlvbn19PC9zcGFuPlxyXG4gICAgPC9kaXY+XHJcbjwvZGl2PlxyXG4iXX0=

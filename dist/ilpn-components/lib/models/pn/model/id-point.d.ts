@@ -1,0 +1,34 @@
+import { Observable, Subject } from 'rxjs';
+import { MouseListener } from './mouse-listener';
+import { Point } from './point';
+import { Identifiable } from '../../../utility/get-by-id';
+export declare class IdPoint extends Identifiable implements Point, MouseListener {
+    private _x;
+    private _y;
+    private _dragging;
+    private _lastPoint;
+    private _element;
+    private _preDragPosition;
+    private _svgOffset;
+    private _layerNodes;
+    private _layerIndex;
+    private _redraw$;
+    constructor(x: number, y: number, id?: string);
+    get x(): number;
+    set x(value: number);
+    get y(): number;
+    set y(value: number);
+    get center(): Point;
+    bindEvents(mouseMoved$: Subject<MouseEvent>, mouseUp$: Subject<MouseEvent>, kill$: Observable<void>, redraw$: Subject<void>): void;
+    processMouseDown(event: MouseEvent): void;
+    processMouseUp(): void;
+    processMouseMoved(event: MouseEvent): void;
+    registerElement(element: SVGElement): void;
+    registerLayer(layer: Array<IdPoint>, index: number): void;
+    protected svgX(): string;
+    protected svgY(): string;
+    private updateSVG;
+    private svgOffset;
+    private swap;
+    private redraw;
+}
