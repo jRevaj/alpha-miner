@@ -179,7 +179,6 @@ export class AlphaMinerSolver {
      * @returns Petri net
      */
     private constructPetriNet(eventList: Set<string>, yl: Array<Set<string>[]>): PetriNet {
-        // TODO: debug duplicate transitions on complex examples
         const net: PetriNet = new PetriNet();
 
         eventList.forEach(event => {
