@@ -1,5 +1,5 @@
 # Web module for education of alpha-algorithm
-This module is implementation part of my bachelors thesis. You can find this module at https://alpha-miner.vercel.app/ 
+This module is implementation part of my bachelors thesis. You can find this module at https://alpha-miner.vercel.app/ilpn-module/ 
 ## Usage of this module
 For using this module you need to have installed [Node.js](https://nodejs.org/en/) and [Angular CLI](https://angular.io/cli).
 
