@@ -13,7 +13,6 @@ import {AlgorithmResult} from "../../../components/src/lib/utility/algorithm-res
     selector: 'app-root',
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.scss'],
-    providers: [AlphaMinerService, XesLogParserService, PetriNetSerialisationService],
 })
 export class AppComponent implements OnDestroy {
     public fdLog = FD_LOG;
