@@ -2,9 +2,23 @@
 
 All notable changes to this project will be documented in this file.
 
+Changes to the components library are tracked in a separate changelog found [here](https://github.com/ILPN/ILPN-Components/blob/master/CHANGELOG.md).
+
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 [//]: # (## Unreleased)
+
+## 1.2.0 - 2023-04-11
+### Added
+- a dependency on Angular `RoutingModule` has been added to the project - [commit](https://github.com/ILPN/ILPN-Module/commit/4925c58b70e7a6054df5ba74e87dd779cd8bb2bd)
+
+### Components
+- The components library version has been increased to v1.2.0
+
+## 1.1.0 - 2022-12-16
+### Components
+- The components library version has been increased to v1.1.0
+  - a changelog has been added for the component library - [here](https://github.com/ILPN/ILPN-Components/blob/master/CHANGELOG.md)
 
 ## 1.0.0 - 2022-10-11
 ### Added
