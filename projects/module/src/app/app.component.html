@@ -15,13 +15,13 @@
         <pre>
             <code class="code">
                 INPUT: L = xes event log
-                1. T<sub>L</sub> = {{t ∈ T | ∃σ∈<sub>L</sub> t ∈ σ}
-                2. T<sub>I</sub> = {{t ∈ T | ∃σ∈<sub>L</sub> t = first(σ)}
-                3. T<sub>O</sub> = {{t ∈ T | ∃σ∈<sub>L</sub> t = last(σ)}
-                4. X<sub>L</sub> = {{(A, B) | A ⊆ T<sub>L</sub> ∧ A ̸ = ∅ ∧ B ⊆ T<sub>L</sub> ∧ B ̸ = ∅ ∧ ∀a∈A ∀b∈B a →<sub>L</sub> b ∧ ∀a1,a2∈A a1 #<sub>L</sub> a2 ∧ ∀b1,b2∈B b1 #<sub>L</sub> b2}
-                5. Y<sub>L</sub> = {{(A, B) ∈ X<sub>L</sub> | ∀(A′,B′)∈X<sub>L</sub> A ⊆ A′ ∧ B ⊆ B′ =⇒ (A, B) = (A′, B′)}
-                6. P<sub>L</sub> = {{p(A,B) | (A, B) ∈ Y<sub>L</sub>} ∪ {{i<sub>L</sub>, o<sub>L</sub>}
-                7. F<sub>L</sub> = {{(a, p(A,B)) | (A, B) ∈ Y<sub>L</sub> ∧ a ∈ A} ∪ {{(p(A,B), b) | (A, B) ∈ Y<sub>L</sub> ∧ b ∈ B} ∪ {{(i<sub>L</sub>, t) | t ∈ T<sub>I</sub> } ∪ {{(t, o<sub>L</sub>) | t ∈ T<sub>O</sub>}
+                1. T<sub>L</sub> = {{"{"}}t ∈ T | ∃σ∈<sub>L</sub> t ∈ σ}
+                2. T<sub>I</sub> = {{"{"}}t ∈ T | ∃σ∈<sub>L</sub> t = first(σ)}
+                3. T<sub>O</sub> = {{"{"}}t ∈ T | ∃σ∈<sub>L</sub> t = last(σ)}
+                4. X<sub>L</sub> = {{"{"}}(A, B) | A ⊆ T<sub>L</sub> ∧ A ̸ = ∅ ∧ B ⊆ T<sub>L</sub> ∧ B ̸ = ∅ ∧ ∀a∈A ∀b∈B a →<sub>L</sub> b ∧ ∀a1,a2∈A a1 #<sub>L</sub> a2 ∧ ∀b1,b2∈B b1 #<sub>L</sub> b2}
+                5. Y<sub>L</sub> = {{"{"}}(A, B) ∈ X<sub>L</sub> | ∀(A′,B′)∈X<sub>L</sub> A ⊆ A′ ∧ B ⊆ B′ =⇒ (A, B) = (A′, B′)}
+                6. P<sub>L</sub> = {{"{"}}p(A,B) | (A, B) ∈ Y<sub>L</sub>} ∪ {{"{"}}i<sub>L</sub>, o<sub>L</sub>}
+                7. F<sub>L</sub> = {{"{"}}(a, p(A,B)) | (A, B) ∈ Y<sub>L</sub> ∧ a ∈ A} ∪ {{"{"}}(p(A,B), b) | (A, B) ∈ Y<sub>L</sub> ∧ b ∈ B} ∪ {{"{"}}(i<sub>L</sub>, t) | t ∈ T<sub>I</sub> } ∪ {{"{"}}(t, o<sub>L</sub>) | t ∈ T<sub>O</sub>}
                 8. α(<sub>L</sub>) = (P<sub>L</sub>, T<sub>L</sub>, F<sub>L</sub>)
                 OUTPUT: PN + result text file
             </code>
