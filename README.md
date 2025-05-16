@@ -16,7 +16,7 @@ For running the module you need to run the following command in the root directo
 - `npm run start` - will execute the build script, followed by `ng serve`. Keep in mind, that hot-reload will only register changes made to the served module project files, and will ignore any changes made to the library files. If you change the library files, you have to rebuild the library (by rerunning this script) to see the changes.
 
 
-# Usefull links
+# Useful links
 - [ILPN Website](https://www.fernuni-hagen.de/ilovepetrinets/)
 - [ILPN Module template repository](https://github.com/ILPN/ILPN-Module)
 - [ILPN Components repository](https://github.com/ILPN/ILPN-Components)
